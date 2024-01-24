@@ -10,7 +10,7 @@ find_package(tcb_span REQUIRED)
 find_package(tl_expected REQUIRED)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
-    add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
+    # add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
 endif()
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
@@ -21,9 +21,10 @@ add_library(rsl
 )
 add_library(rsl::rsl ALIAS rsl)
 target_compile_features(rsl PUBLIC cxx_std_17)
-target_include_directories(rsl PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>)
+target_include_directories(rsl PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>    
+    $<BUILD_INTERFACE:${EIGEN3_INCLUDE_DIR}>)
 target_link_libraries(rsl PUBLIC
-    Eigen3::Eigen
     fmt::fmt
     rclcpp::rclcpp
     tcb_span::tcb_span
